@@ -1,31 +1,31 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import Typewriter from './Typewriter';
 
 const Splash = () => {
   const navigate = useNavigate(); // Initialize navigate function
 
-  return (
-    <div className="flex justify-between items-center h-screen bg-teal-600 px-8">
-      <div>
-        <h1 className="text-7xl font-bold text-white mb-4">Dojo Blog</h1>
-        <p className="text-xl text-gray-100">Your journey to mastering the art of blogging starts here...</p>
-      </div>
-      <div className="flex flex-col space-y-4">
-        <button
-          className="px-6 py-2 text-teal-600 bg-gray-100 rounded-full font-semibold text-lg shadow-md"
-          onClick={() => navigate('/signup')} // Navigate to the sign-in page
-        >
-          SIGN IN
+  return(
+    <div
+  className="hero min-h-screen  bg-base-200 "
+  >
+  <div className="hero-overlay bg-opacity-60"></div>
+  <div className="hero-content text-neutral-content text-center">
+    <div className="max-w-md">
+      <h1 className=" text-9xl font-KolkerBrush relative top-[5px]">dojo blog</h1>
+      <Typewriter/>
+      <br/>
+      <div className="flex flex-row gap-[8px] justify-center items-center">
+        <button className="btn btn-primary" onClick={() => navigate('/signup')}>
+          Sign Up
         </button>
-        <button
-          className="px-6 py-2 text-teal-600 bg-gray-100 rounded-full font-semibold text-lg shadow-md"
-          onClick={() => navigate('/login')} // Navigate to the login page
-        >
-          LOG IN
+        <button className="btn btn-primary" onClick={() => navigate('/login')}>
+          Log In
         </button>
       </div>
     </div>
-  );
+  </div>
+</div>
+  )
 };
 
 export default Splash;

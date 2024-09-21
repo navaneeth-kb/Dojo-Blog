@@ -1,20 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import BlogLists from './BlogLists';
 import CreateBlog from './CreateBlog';
 import profile from '../assets/Home/profile.svg';
-import UserDetailsModal from './UserDetailsModel';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import { auth, db } from '../firebaseConfig';
+import { auth, db } from '../firebaseConfig'
 import { collection, getDocs } from 'firebase/firestore';
 import { Blog } from '../types';
 
 const Home = () => {
-  const location = useLocation();
   const [user, setUser] = useState<User | null>(null);
   const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCreateBlogOpen, setIsCreateBlogOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(''); // New state for search query
+  const navigate = useNavigate();  // For navigating to another page
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -45,17 +44,14 @@ const Home = () => {
   const userName = user?.displayName || 'Guest';
   const userEmail = user?.email || 'Not available';
 
+  const handleProfileClick = () => {
+    // Navigate to the user details page and pass the userName and email
+    navigate('/home/userdetails', { state: { userName, email: userEmail } });
+  };
+
   const handleCreateBlog = (newBlog: Blog) => {
     setBlogs([...blogs, newBlog]);
     setIsCreateBlogOpen(false);
-  };
-
-  const handleProfileClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
   };
 
   const handleOpenCreateBlog = () => {
@@ -66,42 +62,77 @@ const Home = () => {
     setIsCreateBlogOpen(false);
   };
 
+  const handleBlogClick = (blogId: string) => {
+    // Navigate to a new page for the blog with the given blogId
+    navigate(`/home/blog/${blogId}`);
+  };
+
+  
+  // Filter blogs based on search query (by title or author)
+  const filteredBlogs = blogs.filter((blog) =>
+    blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    blog.author.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <div>
+    <div className='overflow-x-hidden'>
+      
       {/* Header */}
-      <div className="flex flex-row justify-between items-center p-4 bg-gray-800 text-white">
-        <div>
-          <h1 className="text-2xl font-bold">Dojo-Blog</h1>
+      <div className="navbar bg-base-100 mr-[25px] ml-[15px]">
+        <div className="flex-1">
+          <div className="text-7xl font-KolkerBrush ">dojo blog</div>
         </div>
-        <div className="flex flex-row items-center">
-          <h2 className="mr-4">Hi, {userName}!</h2>
-          <button onClick={handleProfileClick}>
-            <img src={profile} className="min-h-5" alt="Profile" />
-          </button>
+        <div className="flex-none relative right-[30px]">
+          <ul className="menu menu-horizontal px-1">
+            <h2 className="mr-4 text-xl">Hi, {userName}!</h2>
+            <button onClick={handleProfileClick}>
+              <img src={profile} className="min-h-5" alt="Profile" />
+            </button>
+            
+          </ul>
         </div>
       </div>
+
+      <br/>      
 
       {/* Blog Section */}
       <div className="p-4">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-4xl font-bold text-gray-800">Blogs</h1>
-          <button onClick={handleOpenCreateBlog} className="bg-blue-500 text-white px-4 py-2 rounded">
-            New Blog
-          </button>
+          <h1 className="text-4xl  font-KodeMono">Blogs</h1>
+          
+          <button className="btn btn-primary" onClick={handleOpenCreateBlog}>New Blog</button>
         </div>
 
+        {/* Search Bar */}
+        <label className="input input-bordered flex items-center gap-2">
+          <input type="text" className="grow" placeholder="Search by author or title..." value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              className="h-4 w-4 opacity-70">
+              <path
+                fillRule="evenodd"
+                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                clipRule="evenodd" />
+            </svg>
+        </label>
+
+        <br/>
+        <br/>
+
         {/* Blog Lists */}
-        <BlogLists blogs={blogs} />
+        <BlogLists blogs={filteredBlogs} onBlogClick={handleBlogClick} />
       </div>
 
-      {/* User Details Modal */}
-      {isModalOpen && (
-        <UserDetailsModal 
-          userName={userName} 
-          email={userEmail} 
-          onClose={handleCloseModal} 
-        />
-      )}
+      <footer className="footer footer-center bg-base-300 text-base-content p-4 ">
+        <aside>
+          <p>Copyright © {new Date().getFullYear()} - All right reserved by Navaneeth K.B.</p>
+        </aside>
+      </footer>
+
+      
 
       {/* Create Blog Modal */}
       {isCreateBlogOpen && (

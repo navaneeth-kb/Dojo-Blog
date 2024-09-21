@@ -4,7 +4,15 @@ module.exports = {
     './src/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily:{
+        'KolkerBrush':['Kolker Brush', 'cursive'],
+        'ProtestGuerrilla':['ProtestGuerrilla','sans-serif'], 
+        'KodeMono':['Kode Mono', 'monospace']
+      }
+    },
   },
-  plugins: [],
+  plugins: [
+    require('daisyui'),
+  ],
 };

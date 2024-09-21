@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { collection, addDoc } from 'firebase/firestore'; // Import Firestore functions
 import { db } from '../firebaseConfig'; // Import Firestore instance
 import { Blog } from '../types'; // Import the Blog type
+//import { v4 as uuidv4 } from 'uuid';
 
 type CreateBlogProps = {
   onCreate: (newBlog: Blog) => void;
@@ -31,7 +32,7 @@ const CreateBlog: React.FC<CreateBlogProps> = ({ onCreate, userName, email, onCl
       author: userName,
       email: email,
       date: new Date().toLocaleString(),
-      likes: 0,
+      likes: [],
       comments: [],
     };
 
@@ -61,39 +62,44 @@ const CreateBlog: React.FC<CreateBlogProps> = ({ onCreate, userName, email, onCl
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl">
-        <h2 className="text-2xl font-bold mb-6">Create New Blog</h2>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        <input 
-          type="text" 
-          placeholder="Title" 
-          value={title} 
-          onChange={(e) => setTitle(e.target.value)} 
-          className="mb-4 p-3 border border-gray-400 rounded-lg w-full"
-        />
-        <textarea 
-          placeholder="Content" 
-          value={body} 
-          onChange={(e) => setBody(e.target.value)} 
-          className="mb-4 p-3 border border-gray-400 rounded-lg w-full h-48 resize-none"
-        ></textarea>
-        <div className="flex justify-end space-x-4">
-          <button 
-            className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Submitting...' : 'Submit'}
-          </button>
-          <button 
-            className="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
-            onClick={onClose}
-          >
-            Close
-          </button>
+      <div className="card bg-neutral text-neutral-content w-full max-w-4xl">
+        <div className="card-body items-center text-center">
+          <h2 className="card-title text-2xl font-bold mb-6">Create New Blog</h2>
+          {error && <p className="text-red-500 mb-4">{error}</p>}
+          <input 
+            type="text" 
+            placeholder="Title" 
+            value={title} 
+            onChange={(e) => setTitle(e.target.value)} 
+            className="input input-bordered flex items-center gap-2 w-full"
+          />
+          <textarea 
+            placeholder="Content" 
+            value={body} 
+            onChange={(e) => setBody(e.target.value)} 
+            className="input p-3 border rounded-lg w-full h-48 resize-none"
+          ></textarea>
+          <br/>
+          <div className="card-actions justify-end space-x-4">
+            <button 
+              className="btn btn-primary"
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Submitting...' : 'Submit'}
+            </button>
+            <button 
+              className="btn btn-ghost"
+              onClick={onClose}
+            >
+              Close
+            </button>
+          </div>
         </div>
       </div>
     </div>
+
+
   );
 };
 

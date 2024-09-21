@@ -6,7 +6,6 @@ export type Blog = {
     author: string;
     email: string;
     date: string;
-    likes?: number;
+    likes?: string[];
     comments?: any[];
-  };
-  
+};
