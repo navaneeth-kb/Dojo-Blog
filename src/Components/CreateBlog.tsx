@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { collection, addDoc } from 'firebase/firestore'; // Import Firestore functions
+// @ts-ignore
 import { db } from '../firebaseConfig'; // Import Firestore instance
 import { Blog } from '../types'; // Import the Blog type
 //import { v4 as uuidv4 } from 'uuid';

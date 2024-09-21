@@ -4,6 +4,7 @@ import BlogLists from './BlogLists';
 import CreateBlog from './CreateBlog';
 import profile from '../assets/Home/profile.svg';
 import { onAuthStateChanged, User } from 'firebase/auth';
+// @ts-ignore
 import { auth, db } from '../firebaseConfig'
 import { collection, getDocs } from 'firebase/firestore';
 import { Blog } from '../types';

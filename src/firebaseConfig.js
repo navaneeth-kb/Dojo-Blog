@@ -12,7 +12,7 @@ const firebaseConfig = {
     storageBucket: "dojo-blog-44c2d.appspot.com",
     messagingSenderId: "751823257302",
     appId: "1:751823257302:web:e511b9fb062199ec8e5377",
-    measurementId: "G-7VFN92KDBY"               // Replace with your App ID
+    measurementId: "G-7VFN92KDBY"              // Replace with your App ID
 };
 
 // Initialize Firebase

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
+// @ts-ignore
 import { db } from '../firebaseConfig'; // Import your Firebase config
 
 const BlogDetails: React.FC = () => {

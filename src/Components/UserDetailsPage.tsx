@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom'; // Added useNavigate
 import { collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
+// @ts-ignore
 import { db } from '../firebaseConfig';
 import { Blog } from '../types';
 
